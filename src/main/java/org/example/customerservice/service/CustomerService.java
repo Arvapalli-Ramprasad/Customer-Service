@@ -1,6 +1,7 @@
 package org.example.customerservice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.customerservice.exception.CustomerNotFoundException;
 import org.example.customerservice.models.Customer;
 import org.example.customerservice.repo.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,10 @@ public class CustomerService {
     public Customer getCustomer(Long id) {
         return customerRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Customer not found"));
+                        new CustomerNotFoundException(
+                                "Customer not found with id: " + id
+                        )
+                );
     }
 
     public List<Customer> getAllCustomers() {
